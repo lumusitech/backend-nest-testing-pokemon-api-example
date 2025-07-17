@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PaginationDto } from 'src/shared/dtos/pagination.dto';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 
@@ -8,8 +9,10 @@ export class PokemonsService {
     return 'This action adds a new pokemon';
   }
 
-  findAll() {
-    return `This action returns all pokemons`;
+  findAll(paginationDto: PaginationDto) {
+    const { page, limit } = paginationDto;
+
+    return { page, limit };
   }
 
   findOne(id: number) {
