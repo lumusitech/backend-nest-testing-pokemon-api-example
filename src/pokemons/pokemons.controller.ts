@@ -8,7 +8,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { PaginationDto } from 'src/shared/dtos/pagination.dto';
+
+import { PaginationDto } from '../shared/dtos/pagination.dto';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { PokemonsService } from './pokemons.service';
