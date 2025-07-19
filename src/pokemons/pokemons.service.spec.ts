@@ -50,4 +50,12 @@ describe('PokemonsService', () => {
       `Pokemon with id ${id} not found`,
     );
   });
+
+  //! WARNING: should not pass with invalid message
+  it('WARNING: should return a 404 error if pokemon not exists', async () => {
+    const id = 400000; //? invalid id
+
+    await expect(service.findOne(id)).rejects.toThrow(NotFoundException);
+    await expect(service.findOne(id)).rejects.toThrow(`f`); //! ???
+  });
 });
