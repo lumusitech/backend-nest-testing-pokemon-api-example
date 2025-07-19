@@ -42,6 +42,26 @@ describe('PokemonsService', () => {
     });
   });
 
+  it('should check pokemon props', async () => {
+    const id = 1;
+
+    const result = await service.findOne(id);
+
+    expect(result).toHaveProperty('id');
+    expect(result).toHaveProperty('name');
+    expect(result).toHaveProperty('type');
+    //? When object has a lot of props, is better:
+    expect(result).toEqual(
+      expect.objectContaining({
+        id,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        hp: expect.any(Number),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        sprites: expect.any(Array),
+      }),
+    );
+  });
+
   it('should return a 404 error if pokemon not exists', async () => {
     const id = 400000; //? invalid id
 
@@ -56,6 +76,23 @@ describe('PokemonsService', () => {
     const id = 400000; //? invalid id
 
     await expect(service.findOne(id)).rejects.toThrow(NotFoundException);
-    await expect(service.findOne(id)).rejects.toThrow(`f`); //! ???
+    await expect(service.findOne(id)).rejects.toThrow(`f`); //! ??? invalid message ???
+  });
+
+  it('should return pokemons and cache data', async () => {
+    const query = { limit: 10, page: 2 };
+
+    const response = await service.findAll(query);
+
+    expect(response).toBeInstanceOf(Array);
+    expect(response.length).toBe(query.limit);
+    expect(service.paginatedPokemonsCache.has(`${query.page}-${query.limit}`));
+    expect(
+      service.paginatedPokemonsCache.get(`${query.page}-${query.limit}`)
+        ?.length,
+    ).toBe(query.limit);
+    expect(
+      service.paginatedPokemonsCache.get(`${query.page}-${query.limit}`),
+    ).toEqual(response);
   });
 });

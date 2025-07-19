@@ -36,8 +36,6 @@ export class PokemonsService {
 
     this.paginatedPokemonsCache.set(cacheKey, pokemons);
 
-    console.log(this.paginatedPokemonsCache);
-
     return pokemons;
   }
 
