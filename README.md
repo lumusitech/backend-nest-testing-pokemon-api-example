@@ -20,6 +20,8 @@ To achieve this separation, you'll need a dedicated Jest configuration file for 
 // ...rest of scripts
 ```
 
+After config, we recommend move the e2e testing files to `./test/e2e`.
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
