@@ -6,6 +6,27 @@
   </a>
 </p>
 
+## Specific Topics
+
+In this section, we'll begin our journey into automated testing by creating a default Nest application and using Jest (the recommended option) to start writing automated tests.
+
+Specifically, we'll cover:
+
+- **Assertions - Expect**
+- **Test Groupers - Describe**
+- **Tests - it**
+- **Unit Tests**
+- **Comparative methods** such as:
+  - `toBe`
+  - `toEqual`
+  - `toBeUndefined`
+  - `not`
+- **Decorators validations**
+- **Class-transformer validations**
+- **Plain objects to DTO instances**
+- **DTO tests**
+- And more
+
 ## Required config for e2e testing
 
 To ensure a clear distinction and accurate reporting, you **must separate the coverage reports** for your unit tests and end-to-end (e2e) tests. This is crucial because unit tests cover isolated logic, while e2e tests validate full application flows and integrations. Mixing their coverage can give a misleading view of your application's tested surface.
