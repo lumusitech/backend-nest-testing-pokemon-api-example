@@ -13,6 +13,8 @@ To ensure a clear distinction and accurate reporting, you **must separate the co
 To achieve this separation, you'll need a dedicated Jest configuration file for your e2e tests, typically named `jest-e2e.json`. Your `package.json` scripts should then point to this specific configuration:
 
 ```json
+// build after pass all unit tests ant e2e tests
+  "build": "npm run test && npm run test:e2e && nest build",
 // ...other scripts
   "test:e2e": "jest --config ./jest-e2e.json",
   "test:e2e:watch": "jest --config ./jest-e2e.json --watch",
