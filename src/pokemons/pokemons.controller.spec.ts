@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { PokemonsController } from './pokemons.controller';
 import { PokemonsService } from './pokemons.service';
 
@@ -97,17 +98,18 @@ describe('PokemonsController', () => {
   });
 
   it('should have called the service with the correct id and data(update)', async () => {
-    const dto = {};
+    const dto: UpdatePokemonDto = { name: 'pika2' };
     const id = '1';
+    const updatedPokemon = { ...MOCK_POKEMONS[0], ...dto };
     jest
       .spyOn(service, 'update')
-      .mockImplementation(() => Promise.resolve('Some response'));
+      .mockImplementation(() => Promise.resolve(updatedPokemon));
 
     const response = await controller.update(id, dto);
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(service.update).toHaveBeenCalledWith(+id, dto);
-    expect(response).toEqual('Some response');
+    expect(response).toEqual(updatedPokemon);
   });
 
   it('should have called the service with the correct id(delete)', async () => {
@@ -121,5 +123,19 @@ describe('PokemonsController', () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(service.remove).toHaveBeenCalledWith(+id);
     expect(response).toEqual('some response');
+  });
+
+  it('should have been called the service with create and given data(create)', async () => {
+    const command = { name: 'pika', type: 'electric' };
+
+    jest
+      .spyOn(service, 'create')
+      .mockImplementation(() => Promise.resolve(MOCK_POKEMONS[0]));
+
+    const response = await controller.create(command);
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(service.create).toHaveBeenCalledWith(command);
+    expect(response).toEqual(MOCK_POKEMONS[0]);
   });
 });

@@ -15,7 +15,7 @@ export class PokemonsService {
   paginatedPokemonsCache = new Map<string, Pokemon[]>();
   pokemonCache = new Map<number, Pokemon>();
 
-  create(createPokemonDto: CreatePokemonDto) {
+  async create(createPokemonDto: CreatePokemonDto) {
     const pokemon: Pokemon = {
       ...createPokemonDto,
       id: new Date().getTime(),
@@ -23,11 +23,13 @@ export class PokemonsService {
       sprites: createPokemonDto.sprites ?? [],
     };
 
-    this.pokemonCache.forEach((storedPokemon) => {
-      if (pokemon.name === storedPokemon.name) {
-        throw new BadRequestException(`${pokemon.name} already exists`);
-      }
-    });
+    const exists = Array.from(this.pokemonCache.values()).some(
+      (storedPokemon) => storedPokemon.name === pokemon.name,
+    );
+
+    if (exists) {
+      throw new BadRequestException(`${pokemon.name} already exists`);
+    }
 
     this.pokemonCache.set(pokemon.id, pokemon);
 
@@ -72,15 +74,12 @@ export class PokemonsService {
   async update(id: number, updatePokemonDto: UpdatePokemonDto) {
     const pokemon = await this.findOne(id);
 
-    if (!pokemon)
-      throw new NotFoundException(`pokemon with id ${id} not found`);
-
     const updatedPokemon = {
-      ...pokemon,
+      ...pokemon!,
       ...updatePokemonDto,
     };
 
-    this.pokemonCache.set(pokemon.id, updatedPokemon);
+    this.pokemonCache.set(pokemon!.id, updatedPokemon);
 
     return updatedPokemon;
   }
